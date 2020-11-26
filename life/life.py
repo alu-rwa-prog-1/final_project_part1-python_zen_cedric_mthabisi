@@ -12,68 +12,64 @@ board = [[0, 0, 0, 0, 0, 0, 0, 0],
          [0, 0, 0, 0, 0, 0, 0, 0],
          [0, 0, 0, 0, 0, 0, 0, 0]]
 
-def initialize(board_, positions):
+def initialize(board, positions):
     for x, y in positions:
-        board_[x][y] = 1
-    return board_
+        board[x][y] = 1
+    return board
 
-def count_live_neighbors(pos, board_):
+def count_live_neighbors(pos, board):
     """Count live neighbors of a cell."""
-    x, y = pos
+    neighbors = find_neighbors(pos, board)
+    return sum([board[x][y] for x,y in neighbors])
+
+def find_neighbors(cell, board):
+    """Return the coordinates of the neighboring cells.
+
+    cell -- coordinates of the position of the cell on the board e.g. [0, 1]
+    board -- n x n grid containing cells that are either dead (0) or alive (1) e.g. [[0, 0], [0, 1]]
+    """
+    x, y = cell
     neighbors = []
-    board_height = len(board_)
+    x_max = x + 1 if x + 1 < len(board) else x
+    x_min = x - 1 if x - 1 >= 0 else x
+    y_max = y + 1 if y + 1 < len(board) else y
+    y_min = y - 1 if y - 1 >= 0 else y
 
-    if x == 0 and y == 0:
-        neighbors += [board_[x][y + 1], board_[x + 1][y], board_[x + 1][y + 1]]
-    elif x == board_height - 1 and y == board_height - 1:
-        neighbors += [board_[x][y - 1], board_[x - 1][y - 1], board_[x - 1][y]]
-    elif x == 0 and y == board_height - 1:
-        neighbors += [board_[x][y - 1], board_[x + 1][y - 1], board_[x + 1][y]]
-    elif x == board_height - 1 and y == 0:
-        neighbors += [board_[x][y + 1], board_[x - 1][y], board_[x - 1][y + 1]]
-    elif x == 0:
-        neighbors += [board_[x][y - 1], board_[x][y + 1]] + board_[x + 1][y - 1: y + 2]
-    elif x == board_height - 1:
-        neighbors += [board_[x][y - 1], board_[x][y + 1]] + board_[x - 1][y - 1: y + 2]
-    elif y == 0:
-        neighbors += [board_[x + 1][y], board_[x - 1][y],
-                      board_[x - 1][y + 1], board_[x][y + 1], board_[x + 1][y + 1]]
-    elif y == board_height - 1:
-        neighbors += [board_[x + 1][y], board_[x - 1][y],
-                      board_[x - 1][y - 1], board_[x][y - 1], board_[x + 1][y - 1]]
-    else:
-        neighbors += board_[x - 1][y - 1: y + 2] + [board_[x][y - 1], board_[x][y + 1]] + board_[x + 1][y - 1: y + 2]
+    for i in range(x_min, x_max + 1):
+        for j in range(y_min, y_max + 1):
+            if i != x or j != y:  # DeMorgan's 1st Law: negating conjuctions
+                neighbors.append([i, j])
 
-    return sum(neighbors)
+    return neighbors
 
-def evolve(board_):
+def evolve(board):
     births, deaths = [], []
 
-    for x in range(len(board_)):
-        for y in range(len(board_)):
-            n = count_live_neighbors([x, y], board_)
+    for x in range(len(board)):
+        for y in range(len(board)):
+            n = count_live_neighbors([x, y], board)
 
-            if board_[x][y] and (n == 2 or n == 3):
+            if board[x][y] and (n == 2 or n == 3):
                 continue
-            elif not board_[x][y] and n == 3:
+            elif not board[x][y] and n == 3:
                 births.append([x, y])
             else:
-                if board_[x][y]:
+                if board[x][y]:
                     deaths.append([x, y])
 
     for x, y in births:
-        board_[x][y] = 1
+        board[x][y] = 1
 
     for x, y in deaths:
-        board_[x][y] = 0
+        board[x][y] = 0
 
-def next_gen(board_):
+def next_gen(board):
     while True:
-        yield board_
-        evolve(board_)
+        yield board
+        evolve(board)
 
-def print_board(board_):
-    for row in board_:
+def print_board(board):
+    for row in board:
         print(' '.join([str(c) for c in row]))
 
 def main():
@@ -82,6 +78,7 @@ def main():
     gen = next_gen(board)
 
     for _ in range(5):
+        print('\n----------------\n')
         print_board(next(gen))
 
 
