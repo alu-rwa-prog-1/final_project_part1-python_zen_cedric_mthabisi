@@ -3,6 +3,9 @@ This program implements the Game of Life (https://en.wikipedia.org/wiki/Conway%2
 We assumme that cells at the edges of the board are dead.
 """
 
+import random
+
+
 # CORE CLASSES
 class Board:
     def __init__(self, width, height):
@@ -42,6 +45,29 @@ class Board:
     def __str__(self):
         """Return string representation of the board."""
         return '\n'.join([' '.join([str(cell.status) for cell in row]) for row in self.grid])
+
+class SpaceShipBoard(Board):
+    """Define template for SpaceShipBoard class creation
+
+    This class inherits all of its the properties from the main Board class,
+    and declare couple of its own methods
+    """
+
+    def __init__(self, width, height):
+        Board.__init__(self, width, height)
+        self.glider = [[2, 5], [3, 5], [4, 5], [4, 4], [3, 3]]
+        self.lightWeightShip = [[3, 3], [3, 4], [3, 5], [3, 6], [4, 6], [5, 6], [6, 5], [4, 2], [6, 2]]
+        self.middleWeightShip = [[3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [4, 7], [5, 7], [6, 6], [7, 4], [4, 2], [6, 2]]
+        self.heavyWeightShip = [[3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [4, 8], [5, 8], [6, 7], [7, 4], [7, 5], [4, 2], [6, 2]]
+
+        self.spaceShips = [self.lightWeightShip, self.middleWeightShip, self.heavyWeightShip]
+
+    def pick_random_ship(self):
+        """Pick a random ship from the ship collection and return in as initial setup for cells
+
+        Four possible outcome: a glider, a light-weight, a middle-weight and a heavy-weight spaceship 
+        """
+        return random.choice(self.spaceShips)
 
 class Cell:
     """Define template for creating a Cell object.
@@ -119,10 +145,14 @@ def next_gen(board):
         board.update()
 
 def main():
-    board = Board(8, 8)
-    live_cells = [[2, 2], [2, 3], [3, 2], [3, 3], [4, 4], [4, 5], [5, 4], [5, 5]]
-    activate_cells(board, live_cells)
-    gen = next_gen(board)
+    oscillator_board = OscillatorBoard(20, 20)
+    activate_cells(oscillator_board, oscillator_board.pick_random_oscillator())
+    gen = next_gen(oscillator_board)
+
+    # spaceship Board demo
+    # spaceship_board = SpaceShipBoard(20, 20)
+    # activate_cells(spaceship_board, spaceship_board.pick_random_ship())
+    # gen = next_gen(spaceship_board)
 
     for _ in range(5):
         print('\n----------------\n')
