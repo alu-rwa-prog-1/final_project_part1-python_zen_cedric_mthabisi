@@ -69,6 +69,28 @@ class SpaceShipBoard(Board):
         """
         return random.choice(self.spaceShips)
 
+class OscillatorBoard(Board):
+    """Define template for Oscillator Board class creation
+
+    This class inherits all of its the properties from the main Board class,
+    and declare couple of its own methods
+    """
+
+    def __init__(self, width, height):
+        Board.__init__(self, width, height)
+        self.blinker = [[3, 4], [4, 4], [5, 4]]
+        self.toad = [[4, 2], [4, 3], [4, 4], [3, 3], [3, 4], [3, 5]]
+        self.beacon = [[2, 2], [2, 3], [3, 2], [3, 3], [4, 4], [4, 5], [5, 4], [5, 5]]
+
+        self.oscillators = [self.blinker, self.toad, self.beacon]
+
+    def pick_random_oscillator(self):
+        """Pick a random ship from the ship collection and return in as initial setup for cells
+
+        Three possible outcome: a blinker, a toad and a beacon oscillator 
+        """
+        return random.choice(self.oscillators)
+
 class Cell:
     """Define template for creating a Cell object.
 
