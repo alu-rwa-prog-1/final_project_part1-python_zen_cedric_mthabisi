@@ -117,17 +117,3 @@ def next_gen(board):
     while True:
         yield board
         board.update()
-
-def main():
-    board = Board(8, 8)
-    live_cells = [[2, 2], [2, 3], [3, 2], [3, 3], [4, 4], [4, 5], [5, 4], [5, 5]]
-    activate_cells(board, live_cells)
-    gen = next_gen(board)
-
-    for _ in range(5):
-        print('\n----------------\n')
-        print(next(gen))
-
-
-if __name__ == '__main__':
-    main()
