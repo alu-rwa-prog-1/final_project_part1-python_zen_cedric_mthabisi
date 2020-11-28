@@ -78,6 +78,55 @@ class Board:
         """Return string representation of the board."""
         return '\n'.join([' '.join([str(cell.status) for cell in row]) for row in self.grid])
 
+class Glider(Board):
+    """Define template for SpaceShipBoard class creation
+
+    This class inherits all of its the properties from the main Board class,
+    and declare couple of its own methods
+    """
+
+    def __init__(self, width, height):
+        super().__init__(width, height)
+
+        self.live_cells = [[2, 5], [3, 5], [4, 5], [4, 4], [3, 3]]
+        activate_cells(self, self.live_cells)
+
+class LightWeightShip(Board):
+    """Define template for the LightWeightShip Board class creation
+
+    This class inherits all of its the properties from the main Board class
+    """
+
+    def __init__(self, width, height):
+        super().__init__(width, height)
+
+        self.live_cells = [[3, 3], [3, 4], [3, 5], [3, 6], [4, 6], [5, 6], [6, 5], [4, 2], [6, 2]]
+        activate_cells(self, self.live_cells)
+
+class MiddleWeightShip(Board):
+    """Define template for the MiddleWeightShip Board class creation
+
+    This class inherits all of its the properties from the main Board class
+    """
+
+    def __init__(self, width, height):
+        super().__init__(width, height)
+
+        self.live_cells = [[3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [4, 7], [5, 7], [6, 6], [7, 4], [4, 2], [6, 2]]
+        activate_cells(self, self.live_cells)
+
+class HeavyWeightShip(Board):
+    """Define template for the HeavyWeightShip Board class creation
+
+    This class inherits all of its the properties from the main Board class
+    """
+
+    def __init__(self, width, height):
+        super().__init__(width, height)
+
+        self.live_cells = [[3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [4, 8], [5, 8], [6, 7], [7, 4], [7, 5], [4, 2], [6, 2]]
+        activate_cells(self, self.live_cells)
+
 class Cell:
     """Define template for creating a Cell object.
 
@@ -119,7 +168,6 @@ class Cell:
         """Return if a cell has a status of 1 (alive)."""
         return bool(self.status)
 
-
 def activate_cells(board, positions):
     """Change cells' status to alive (1) given their coordinates.
 
@@ -137,12 +185,10 @@ def next_gen(board):
         board.update()
 
 def main():
-    board = Board(8, 8)
-    live_cells = [(2, 2), (2, 3), (3, 2), (3, 3), (4, 4), (4, 5), (5, 4), (5, 5)]
-    activate_cells(board, live_cells)
-    gen = next_gen(board)
+    heavy_weight_ship = HeavyWeightShip(15, 15)
+    gen = next_gen(heavy_weight_ship)
 
-    for _ in range(5):
+    for _ in range(10):
         print('\n----------------\n')
         print(next(gen))
 
