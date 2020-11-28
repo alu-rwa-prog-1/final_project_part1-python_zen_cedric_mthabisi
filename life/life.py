@@ -16,12 +16,6 @@ class Board:
         x, y = pos
         return self.grid[x][y]
 
-    def activate_cells(self, positions):
-        for x, y in positions:
-            cell = self.grid[x][y]
-            cell.status = 1
-        return self
-
     def update(self):
         # write code to update the board
         birth_row, death_row = [], []
@@ -94,28 +88,6 @@ class HeavyWeightShip(Board):
 
         self.live_cells = [[3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [4, 8], [5, 8], [6, 7], [7, 4], [7, 5], [4, 2], [6, 2]]
 
-class OscillatorBoard(Board):
-    """Define template for Oscillator Board class creation
-
-    This class inherits all of its the properties from the main Board class,
-    and declare couple of its own methods
-    """
-
-    def __init__(self, width, height):
-        super().__init__(width, height)
-        self.blinker = [[3, 4], [4, 4], [5, 4]]
-        self.toad = [[4, 2], [4, 3], [4, 4], [3, 3], [3, 4], [3, 5]]
-        self.beacon = [[2, 2], [2, 3], [3, 2], [3, 3], [4, 4], [4, 5], [5, 4], [5, 5]]
-
-        self.oscillators = [self.blinker, self.toad, self.beacon]
-
-    def pick_random_oscillator(self):
-        """Pick a random ship from the ship collection and return in as initial setup for cells
-
-        Three possible outcome: a blinker, a toad and a beacon oscillator 
-        """
-        return random.choice(self.oscillators)
-
 class Cell:
     """Define template for creating a Cell object.
 
@@ -157,6 +129,12 @@ class Cell:
         """Return if a cell has a status of 1 (alive)."""
         return bool(self.status)
 
+def activate_cells(board, positions):
+    for x, y in positions:
+        cell = board.grid[x][y]
+        cell.status = 1
+    return board
+
 def find_neighbors(cell):
     """Return the coordinates of the neighboring cells.
 
@@ -186,13 +164,8 @@ def next_gen(board):
 
 def main():
     heavy_weight_ship = HeavyWeightShip(15, 15)
-    heavy_weight_ship.activate_cells(heavy_weight_ship.live_cells)
+    activate_cells(heavy_weight_ship, heavy_weight_ship.live_cells)
     gen = next_gen(heavy_weight_ship)
-
-    # spaceship Board demo
-    # spaceship_board = SpaceShipBoard(20, 20)
-    # activate_cells(spaceship_board, spaceship_board.pick_random_ship())
-    # gen = next_gen(spaceship_board)
 
     for _ in range(10):
         print('\n----------------\n')
