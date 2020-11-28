@@ -3,9 +3,6 @@ This program implements the Game of Life (https://en.wikipedia.org/wiki/Conway%2
 We assumme that cells at the edges of the board are dead.
 """
 
-import random
-
-
 # CORE CLASSES
 class Board:
     def __init__(self, width, height):
@@ -18,6 +15,12 @@ class Board:
     def get_cell(self, pos):
         x, y = pos
         return self.grid[x][y]
+
+    def activate_cells(self, positions):
+        for x, y in positions:
+            cell = self.grid[x][y]
+            cell.status = 1
+        return self
 
     def update(self):
         # write code to update the board
@@ -46,7 +49,7 @@ class Board:
         """Return string representation of the board."""
         return '\n'.join([' '.join([str(cell.status) for cell in row]) for row in self.grid])
 
-class SpaceShipBoard(Board):
+class Glider(Board):
     """Define template for SpaceShipBoard class creation
 
     This class inherits all of its the properties from the main Board class,
@@ -54,20 +57,42 @@ class SpaceShipBoard(Board):
     """
 
     def __init__(self, width, height):
-        Board.__init__(self, width, height)
-        self.glider = [[2, 5], [3, 5], [4, 5], [4, 4], [3, 3]]
-        self.lightWeightShip = [[3, 3], [3, 4], [3, 5], [3, 6], [4, 6], [5, 6], [6, 5], [4, 2], [6, 2]]
-        self.middleWeightShip = [[3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [4, 7], [5, 7], [6, 6], [7, 4], [4, 2], [6, 2]]
-        self.heavyWeightShip = [[3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [4, 8], [5, 8], [6, 7], [7, 4], [7, 5], [4, 2], [6, 2]]
+        super().__init__(width, height)
 
-        self.spaceShips = [self.lightWeightShip, self.middleWeightShip, self.heavyWeightShip]
+        self.live_cells = [[2, 5], [3, 5], [4, 5], [4, 4], [3, 3]]
 
-    def pick_random_ship(self):
-        """Pick a random ship from the ship collection and return in as initial setup for cells
+class LightWeightShip(Board):
+    """Define template for the LightWeightShip Board class creation
 
-        Four possible outcome: a glider, a light-weight, a middle-weight and a heavy-weight spaceship 
-        """
-        return random.choice(self.spaceShips)
+    This class inherits all of its the properties from the main Board class
+    """
+
+    def __init__(self, width, height):
+        super().__init__(width, height)
+
+        self.live_cells = [[3, 3], [3, 4], [3, 5], [3, 6], [4, 6], [5, 6], [6, 5], [4, 2], [6, 2]]
+
+class MiddleWeightShip(Board):
+    """Define template for the MiddleWeightShip Board class creation
+
+    This class inherits all of its the properties from the main Board class
+    """
+
+    def __init__(self, width, height):
+        super().__init__(width, height)
+
+        self.live_cells = [[3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [4, 7], [5, 7], [6, 6], [7, 4], [4, 2], [6, 2]]
+
+class HeavyWeightShip(Board):
+    """Define template for the HeavyWeightShip Board class creation
+
+    This class inherits all of its the properties from the main Board class
+    """
+
+    def __init__(self, width, height):
+        super().__init__(width, height)
+
+        self.live_cells = [[3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [4, 8], [5, 8], [6, 7], [7, 4], [7, 5], [4, 2], [6, 2]]
 
 class OscillatorBoard(Board):
     """Define template for Oscillator Board class creation
@@ -77,7 +102,7 @@ class OscillatorBoard(Board):
     """
 
     def __init__(self, width, height):
-        Board.__init__(self, width, height)
+        super().__init__(width, height)
         self.blinker = [[3, 4], [4, 4], [5, 4]]
         self.toad = [[4, 2], [4, 3], [4, 4], [3, 3], [3, 4], [3, 5]]
         self.beacon = [[2, 2], [2, 3], [3, 2], [3, 3], [4, 4], [4, 5], [5, 4], [5, 5]]
@@ -132,13 +157,6 @@ class Cell:
         """Return if a cell has a status of 1 (alive)."""
         return bool(self.status)
 
-
-def activate_cells(board, positions):
-    for x, y in positions:
-        cell = board.grid[x][y]
-        cell.status = 1
-    return board
-
 def find_neighbors(cell):
     """Return the coordinates of the neighboring cells.
 
@@ -167,16 +185,16 @@ def next_gen(board):
         board.update()
 
 def main():
-    oscillator_board = OscillatorBoard(20, 20)
-    activate_cells(oscillator_board, oscillator_board.pick_random_oscillator())
-    gen = next_gen(oscillator_board)
+    heavy_weight_ship = HeavyWeightShip(15, 15)
+    heavy_weight_ship.activate_cells(heavy_weight_ship.live_cells)
+    gen = next_gen(heavy_weight_ship)
 
     # spaceship Board demo
     # spaceship_board = SpaceShipBoard(20, 20)
     # activate_cells(spaceship_board, spaceship_board.pick_random_ship())
     # gen = next_gen(spaceship_board)
 
-    for _ in range(5):
+    for _ in range(10):
         print('\n----------------\n')
         print(next(gen))
 
