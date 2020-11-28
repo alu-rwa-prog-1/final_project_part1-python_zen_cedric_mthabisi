@@ -54,6 +54,7 @@ class Glider(Board):
         super().__init__(width, height)
 
         self.live_cells = [[2, 5], [3, 5], [4, 5], [4, 4], [3, 3]]
+        activate_cells(self, self.live_cells)
 
 class LightWeightShip(Board):
     """Define template for the LightWeightShip Board class creation
@@ -65,6 +66,7 @@ class LightWeightShip(Board):
         super().__init__(width, height)
 
         self.live_cells = [[3, 3], [3, 4], [3, 5], [3, 6], [4, 6], [5, 6], [6, 5], [4, 2], [6, 2]]
+        activate_cells(self, self.live_cells)
 
 class MiddleWeightShip(Board):
     """Define template for the MiddleWeightShip Board class creation
@@ -76,6 +78,7 @@ class MiddleWeightShip(Board):
         super().__init__(width, height)
 
         self.live_cells = [[3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [4, 7], [5, 7], [6, 6], [7, 4], [4, 2], [6, 2]]
+        activate_cells(self, self.live_cells)
 
 class HeavyWeightShip(Board):
     """Define template for the HeavyWeightShip Board class creation
@@ -87,6 +90,7 @@ class HeavyWeightShip(Board):
         super().__init__(width, height)
 
         self.live_cells = [[3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [4, 8], [5, 8], [6, 7], [7, 4], [7, 5], [4, 2], [6, 2]]
+        activate_cells(self, self.live_cells)
 
 class Cell:
     """Define template for creating a Cell object.
@@ -164,7 +168,6 @@ def next_gen(board):
 
 def main():
     heavy_weight_ship = HeavyWeightShip(15, 15)
-    activate_cells(heavy_weight_ship, heavy_weight_ship.live_cells)
     gen = next_gen(heavy_weight_ship)
 
     for _ in range(10):
