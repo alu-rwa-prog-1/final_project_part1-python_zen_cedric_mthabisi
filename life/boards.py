@@ -1,8 +1,10 @@
 """
     This file implements the main class Board and all its child classes.
+
+    Each board has a width, height and set of live cells and a grid of cells.
 """
 
-from life import cells as cl
+import cell
 
 # CORE CLASSES
 class Board:
@@ -16,7 +18,7 @@ class Board:
         self.height = height
         self.live_cells = []
         # generate an n * n grid where n = self.width = self.height
-        self.grid = [[cl.Cell((x, y), self) for y in range(self.width)] for x in range(self.height)]
+        self.grid = [[cell.Cell((x, y), self) for y in range(self.width)] for x in range(self.height)]
 
     def get_cell(self, pos):
         """Return a cell given its coordinates.
