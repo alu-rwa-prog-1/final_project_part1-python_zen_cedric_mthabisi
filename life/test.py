@@ -45,7 +45,35 @@ class TestCell(unittest.TestCase):
         self.assertEqual(self.cell.count_live_neighbors(), 0)
 
 class TestBoard(unittest.TestCase):
-    pass
+    def setUp(self):
+        """This method sets up default board and cell to use for the tests"""
+        self.board = Board(10, 10)
+        self.cell = Cell((5, 4), self.board)
+
+    def test_size(self):
+        """This method tests if the board have the expected size after instantiation"""
+        self.assertEqual(self.board.width, 10)
+        self.assertEqual(self.board.height, 10)
+
+    def test_has_cell(self):
+        """This method tests if the board has the approptiate cell on the expected location"""
+        self.assertTrue(isinstance(self.board.get_cell((5, 4)), Cell))
+        self.assertEqual(self.board.get_cell((5, 4)).pos, (5, 4))
+
+    def test_no_cell(self):
+        """This method tests if the board raises an IndexError when given an unexisting cell pos"""
+        with self.assertRaises(IndexError):
+            self.board.get_cell((20, 10))
+
+    def test_single_cell_death(self):
+        """This method test if a single live cell stays dead after the bord updates"""
+        self.board.update()
+        self.assertFalse(self.cell.is_alive())
+
+    def test_not_size(self):
+        """This method tests the size of the board for an invalid data -> size(10) checking 20"""
+        self.assertNotEqual(self.board.width, 20)
+        self.assertNotEqual(self.board.height, 20)
 
 if __name__ == "__main__":
     unittest.main()
