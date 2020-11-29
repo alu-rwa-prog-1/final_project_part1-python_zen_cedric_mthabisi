@@ -4,9 +4,8 @@
     Each board has a width, height and set of live cells and a grid of cells.
 """
 
-import cell
+from cell import Cell
 
-# CORE CLASSES
 class Board:
     def __init__(self, width, height):
         """Initialize the Board class.
@@ -18,7 +17,7 @@ class Board:
         self.height = height
         self.live_cells = []
         # generate an n * n grid where n = self.width = self.height
-        self.grid = [[cell.Cell((x, y), self) for y in range(self.width)] for x in range(self.height)]
+        self.grid = [[Cell((x, y), self) for y in range(self.width)] for x in range(self.height)]
 
     def get_cell(self, pos):
         """Return a cell given its coordinates.
@@ -63,19 +62,21 @@ class Board:
                 cell = self.grid[x][y]
                 n = cell.count_live_neighbors()
 
-                if cell.status and (n == 2 or n == 3):
+                if cell.is_alive() and (n == 2 or n == 3):
                     continue
-                elif not cell.status and n == 3:
+                elif not cell.is_alive() and n == 3:
                     birth_row.append([x, y])
                 else:
-                    if cell.status:
+                    if cell.is_alive():
                         death_row.append((x, y))
 
         for pos in birth_row:  # cells that will be born
             self.get_cell(pos).set_alive()
+            print()
 
         for pos in death_row:  # cells that will die
             self.get_cell(pos).set_dead()
+            print()
 
     def __str__(self):
         """Return string representation of the board."""
@@ -127,7 +128,8 @@ class HeavyWeightShip(Board):
     def __init__(self, width, height):
         super().__init__(width, height)
 
-        self.live_cells = [[3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [4, 8], [5, 8], [6, 7], [7, 4], [7, 5], [4, 2], [6, 2]]
+        self.live_cells = [[3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [4, 8],
+                           [5, 8], [6, 7], [7, 4], [7, 5], [4, 2], [6, 2]]
         activate_cells(self, self.live_cells)
 
 def activate_cells(board, positions):
