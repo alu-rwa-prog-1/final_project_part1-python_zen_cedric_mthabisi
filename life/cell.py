@@ -1,5 +1,8 @@
 """
-    This file implements the Cell class with all its methods.
+    This file implements the Cell class with all its methods. Each cell has a status, a board
+    and position.
+
+    We considered the initial status of a cell to be 0 (dead cell).
 """
 
 class Cell:
