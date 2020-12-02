@@ -8,8 +8,20 @@ To be updated soon.
 
 ## Usage
 
-To be updated soon.
+To run a text-based game, run
+`py life.py`
 
+The game has several options you will use, which you can view by running `py life.py --help`.
+```
+usage: life.py [-h] [-b BOARD] [--size SIZE]
+
+Play Conway's Game of Life
+
+optional arguments:
+    -h, --help   show this help message and exit
+    -b BOARD     selects the game board (glider/lws/mws/hws)
+    --size SIZE  selects board size (number of columns and rows)
+```
 ## Contributing
 
 1. Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. 
