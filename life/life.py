@@ -11,11 +11,17 @@ def next_gen(board):
         yield board
 
 def run():
+    """Reads command-line arguments and starts a game with those options."""
     import argparse
 
     parser = argparse.ArgumentParser(description="Play Conway's Game of Life")
-    parser.add_argument('-b', type=str, metavar='BOARD',
-                        help='selects the game board (glider/lws/mws/hws)')
+    parser.add_argument('-b', type=str, metavar='BOARD', help='selects the game board',
+                        choices=[
+                            'glider',
+                            'lightweight-ship',
+                            'middlewight-ship',
+                            'heavyweight-ship',
+                        ])
     parser.add_argument('--size', type=int,
                         help='selects board size (number of columns and rows)', default=10)
     args = parser.parse_args()
@@ -23,13 +29,13 @@ def run():
     size = args.size
     board = boards.Board(size, size)
 
-    if args.b in ['g', 'glider']:
+    if args.b == 'glider':
         board = boards.Glider(size, size)
-    elif args.b in ['lws', 'lightweight', 'lightweight_ship']:
+    elif args.b == 'lightweight-ship':
         board = boards.LightWeightShip(size, size)
-    elif args.b in ['mws', 'middleweight', 'middleweight_ship']:
+    elif args.b == 'middleweight-ship':
         board = boards.MiddleWeightShip(size, size)
-    elif args.b in ['hws', 'heavyweight', 'heavyweight_ship']:
+    elif args.b == 'heavyweight-ship':
         board = boards.HeavyWeightShip(size, size)
 
     user_action = ''
