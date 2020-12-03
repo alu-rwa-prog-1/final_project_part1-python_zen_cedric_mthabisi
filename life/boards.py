@@ -73,14 +73,15 @@ class Board:
 
         for pos in birth_row:  # cells that will be born
             self.get_cell(pos).set_alive()
-            print()
+            print('cell at {} lives'.format(pos))
 
         for pos in death_row:  # cells that will die
             self.get_cell(pos).set_dead()
-            print()
+            print('cell at {} dies'.format(pos))
 
     def __str__(self):
         """Return string representation of the board."""
+        print('\nprinting board...')
         return '\n'.join([' '.join([str(cell.status) for cell in row]) for row in self.grid])
 
 class Glider(Board):
@@ -146,9 +147,3 @@ def activate_cells(board, positions):
         else:
             print('Warning: Cell not activated, cell at {} not found.'.format(pos))
     return board
-
-def next_gen(board):
-    """Yield the next generation of the Game of Life board."""
-    while True:
-        yield board
-        board.update()

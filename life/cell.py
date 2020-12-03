@@ -36,12 +36,10 @@ class Cell:
 
     def set_dead(self):
         """Change status to 0 (dead)."""
-        print('Cell at {} dies.'.format(self.pos))
         self.status = 0
 
     def set_alive(self):
         """Change status to 1 (alive)."""
-        print('Cell at {} lives.'.format(self.pos))
         self.status = 1
 
     def is_alive(self):
