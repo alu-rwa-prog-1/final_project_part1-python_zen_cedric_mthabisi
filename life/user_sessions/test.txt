@@ -1,0 +1,5 @@
+
+-----------------------------
+Username: test_user
+Board type: middleweight-ship 
+Board size: 20 
