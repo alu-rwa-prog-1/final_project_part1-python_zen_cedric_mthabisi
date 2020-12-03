@@ -25,7 +25,8 @@ class Board:
         pos -- tuple representing the cell's position on the board
         """
         x, y = pos
-        return self.grid[x][y]
+        if x in range(self.height) and y in range(self.width):
+            return self.grid[x][y]
 
     # specify the rules for finding neighboring cells on a board
     def find_neighbors(self, cell):
@@ -139,7 +140,11 @@ def activate_cells(board, positions):
     """
     for pos in positions:
         cell = board.get_cell(pos)
-        cell.set_alive()
+
+        if cell is not None:
+            cell.set_alive()
+        else:
+            print('Warning: Cell not activated, cell at {} not found.'.format(pos))
     return board
 
 def next_gen(board):
