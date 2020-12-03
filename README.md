@@ -4,7 +4,7 @@ Life is an implementation of the classical programming problem, [Conway's Game o
 
 ## Installation
 
-To be updated soon.
+No installation need. Just ensure that you have installed `Python 3`. You can download Python from [here](https://www.python.org/downloads/).
 
 ## Usage
 
@@ -18,9 +18,10 @@ usage: life.py [-h] [-b BOARD] [--size SIZE]
 Play Conway's Game of Life
 
 optional arguments:
-    -h, --help   show this help message and exit
-    -b BOARD     selects the game board (glider/lws/mws/hws)
-    --size SIZE  selects board size (number of columns and rows)
+    -h, --help            show this help message and exit
+    -b BOARD              selects the game board (glider/lws/mws/hws)
+    --size SIZE           selects board size (number of columns and rows)
+    --username USERNAME   selects username
 ```
 ## Contributing
 
