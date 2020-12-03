@@ -24,10 +24,14 @@ def run():
                         ])
     parser.add_argument('--size', type=int,
                         help='selects board size (number of columns and rows)', default=10)
+    parser.add_argument('--username', help='selects username')
     args = parser.parse_args()
 
     size = args.size
     board = boards.Board(size, size)
+
+    username = args.username
+    # do something about the username here
 
     if args.b == 'glider':
         board = boards.Glider(size, size)
