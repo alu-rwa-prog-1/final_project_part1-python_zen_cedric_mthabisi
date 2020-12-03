@@ -1,4 +1,6 @@
 """
+    Authors: Mthabisi Ndlovu, Cedric Murairi
+    
     This file implements the Cell class with all its methods. Each cell has a status, a board
     and position.
 

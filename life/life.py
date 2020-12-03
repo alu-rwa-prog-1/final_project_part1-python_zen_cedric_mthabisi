@@ -1,4 +1,6 @@
-"""
+""" 
+    Author: Mthabisi Ndlovu, Cedric Murairi
+    
     This program implements the Game of Life (https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
     We assumme that cells at the edges of the board are dead.
 """
@@ -9,6 +11,16 @@ def next_gen(board):
     while True:
         board.update()
         yield board
+
+def write_to_file(username, board_type, board_size):
+    """write to file the user actions with the game board"""
+    new_file = open(f'life/user_sessions/{username}.txt', 'a')
+
+    new_file.write('\n-----------------------------\n')
+    new_file.write(f'Username: {username} \n')
+    new_file.write(f'Board type: {board_type} \n')
+    new_file.write(f'Board size: {board_size} \n')
+    new_file.close()
 
 def run():
     """Reads command-line arguments and starts a game with those options."""
@@ -31,7 +43,8 @@ def run():
     board = boards.Board(size, size)
 
     username = args.username
-    # do something about the username here
+
+    write_to_file(username, args.b, size)
 
     if args.b == 'glider':
         board = boards.Glider(size, size)

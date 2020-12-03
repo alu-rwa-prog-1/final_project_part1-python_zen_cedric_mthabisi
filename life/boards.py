@@ -1,4 +1,6 @@
 """
+    Authors: Mthabisi Ndlovu, Cedric Murairi
+    
     This file implements the main class Board and all its child classes.
 
     Each board has a width, height and set of live cells and a grid of cells.

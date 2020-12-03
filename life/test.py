@@ -60,11 +60,6 @@ class TestBoard(unittest.TestCase):
         self.assertTrue(isinstance(self.board.get_cell((5, 4)), Cell))
         self.assertEqual(self.board.get_cell((5, 4)).pos, (5, 4))
 
-    def test_no_cell(self):
-        """This method tests if the board raises an IndexError when given an unexisting cell pos"""
-        with self.assertRaises(IndexError):
-            self.board.get_cell((20, 10))
-
     def test_single_cell_death(self):
         """This method test if a single live cell stays dead after the bord updates"""
         self.board.update()
