@@ -31,7 +31,7 @@ def run():
                         choices=[
                             'glider',
                             'lightweight-ship',
-                            'middlewight-ship',
+                            'middleweight-ship',
                             'heavyweight-ship',
                         ])
     parser.add_argument('--size', type=int,
